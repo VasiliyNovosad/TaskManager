@@ -1,0 +1,9 @@
+development:
+  adapter: postgresql
+  encoding: utf8
+  database: task-manager
+  pool: 5
+  host: localhost
+  username: oce
+  password: pwd
+  port: 15432

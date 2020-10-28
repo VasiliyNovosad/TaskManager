@@ -1,0 +1,108 @@
+html {
+    height: 100%;
+    -webkit-background-size: cover;
+    -moz-background-size: cover;
+    -o-background-size: cover;
+    background-size: cover;
+    background-repeat:no-repeat;
+    background: linear-gradient(#fcfc98, #ff6f00);
+}
+
+body {
+    background: transparent;
+}
+
+#caption {
+    text-align: center;
+}
+
+.projectItem {
+    width: 100%;
+    background: whitesmoke;
+    border-radius: 0 0 10px 10px;
+    margin-bottom: 20px;
+}
+
+.projectName {
+    width: 100%;
+    background: linear-gradient(#537fb2, #0d528f);
+    color: white;
+    padding: 10px;
+    margin: 0;
+}
+
+.newTaskBlock {
+    background: darkgrey;
+}
+
+.projectDeleteButton:hover, .projectEditButton:hover {
+    cursor: pointer;
+    color: #90a2b8;
+}
+
+.taskTool:hover {
+    cursor: pointer;
+    color: #c7c6c6;
+}
+
+.projectToolbar {
+    display: none;
+    color: #6a92c1;
+}
+
+.taskToolbar  {
+    display: none;
+    color: darkgrey;
+    text-align: center;
+    padding: 10px;
+}
+
+.projectName:hover .projectToolbar,
+.taskItem:hover .taskToolbar {
+    display: inline-block;
+}
+
+.taskName {
+    padding: 10px;
+    border-right: darkgrey 1px solid;
+}
+
+.taskDoneCheckbox > .form-check {
+    padding: 10px 0 10px 45px;
+}
+
+.taskItem {
+    border-top: darkgrey 1px solid;
+    margin: 0;
+}
+
+.taskItem:hover {
+    background: #e3e367;
+}
+
+.taskDoneCheckbox {
+    border-right: darkgrey 7px double;
+}
+
+.far {
+    margin-right: 15px;
+}
+
+.newTaskBlock {
+    margin: 0;
+    padding: 10px;
+}
+
+.addTaskButton {
+    border-radius: 0;
+    padding: 5px 30px;
+}
+
+.taskAddIcon {
+    color: green;
+    margin: 10px;
+}
+
+.newTaskNameInput {
+    width: 80%;
+}

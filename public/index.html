@@ -16,79 +16,153 @@
           <h7>FROM RUBY GARAGE</h7>
         </div>
         <div id="projectsBlock" class="col-12">
-          <div class="projectItem" id="project-1" data-id="1" data-name="Home Tasks">
-            <div class="projectName row">
-              <div class="col-11"><i class="far fa-calendar-alt"></i>Home Tasks</div>
-              <div class="col-1 float-right projectToolbar">
-                <i class="projectEditButton fas fa-edit"></i>
-                |
-                <i class="projectDeleteButton fas fa-trash"></i>
-              </div>
-            </div>
-            <div class="newTaskBlock row">
-              <i class="taskAddIcon fas fa-plus"></i>
-              <input type="text" name="new-task-name" class="newTaskNameInput form-control" placeholder="" id="new-task-name-1">
-              <div class="addTaskButton btn btn-success">Add Task</div>
-            </div>
-            <div class="tasksBlock">
-              <div class="taskItem row" id="task-1" data-project-id="1" data-id="1" data-position="1">
-                <div class="taskDoneCheckbox col-1">
-                  <div class="form-check">
-                    <input class="form-check-input position-static" type="checkbox" value="1">
-                  </div>
-                </div>
-                <div class="taskName col-9">Task 1</div>
-                <div class="col-2 taskToolbar">
-                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |
-                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |
-                  <i class="taskTool taskEditButton fas fa-edit"></i> |
-                  <i class="taskTool taskDeleteButton fas fa-trash"></i>
-                </div>
-              </div>
-              <div class="taskItem row" id="task-2" data-project-id="1" data-id="2" data-name="Task 2" data-position="2">
-                <div class="taskDoneCheckbox col-1">
-                  <div class="form-check">
-                    <input class="form-check-input position-static" type="checkbox">
-                  </div>
-                </div>
-                <div class="taskName col-9">Task 2</div>
-                <div class="col-2 taskToolbar">
-                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |
-                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |
-                  <i class="taskTool taskEditButton fas fa-edit"></i> |
-                  <i class="taskTool taskDeleteButton fas fa-trash"></i>
-                </div>
-              </div>
-              <div class="taskItem row" id="task-3" data-project-id="1" data-id="3" data-name="Task 3" data-position="3">
-                <div class="taskDoneCheckbox col-1">
-                  <div class="form-check">
-                    <input class="form-check-input position-static" type="checkbox" checked>
-                  </div>
-                </div>
-                <div class="taskName col-9">Task 3</div>
-                <div class="col-2 taskToolbar">
-                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |
-                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |
-                  <i class="taskTool taskEditButton fas fa-edit"></i> |
-                  <i class="taskTool taskDeleteButton fas fa-trash"></i>
-                </div>
-              </div>
-              <div class="taskItem row" id="task-4" data-project-id="1" data-id="4" data-name="Task 4" data-position="4">
-                <div class="taskDoneCheckbox col-1">
-                  <div class="form-check">
-                    <input class="form-check-input position-static" type="checkbox" checked>
-                  </div>
-                </div>
-                <div class="taskName col-9">Task 4</div>
-                <div class="col-2 taskToolbar">
-                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |
-                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |
-                  <i class="taskTool taskEditButton fas fa-edit"></i> |
-                  <i class="taskTool taskDeleteButton fas fa-trash"></i>
-                </div>
-              </div>
-            </div>
-          </div>
+<!--          <div class="projectItem" id="project-1" data-id="1" data-name="Home Tasks">-->
+<!--            <div class="projectName row">-->
+<!--              <div class="col-11"><i class="far fa-calendar-alt"></i>Home Tasks</div>-->
+<!--              <div class="col-1 float-right projectToolbar">-->
+<!--                <i class="projectEditButton fas fa-edit"></i>-->
+<!--                |-->
+<!--                <i class="projectDeleteButton fas fa-trash"></i>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="newTaskBlock row">-->
+<!--              <i class="taskAddIcon fas fa-plus"></i>-->
+<!--              <input type="text" name="new-task-name" class="newTaskNameInput form-control" placeholder="Start typing here to create a task..." id="new-task-name-1">-->
+<!--              <div class="addTaskButton btn btn-success">Add Task</div>-->
+<!--            </div>-->
+<!--            <div class="tasksBlock">-->
+<!--              <div class="taskItem row" id="task-1" data-project-id="1" data-id="1" data-position="1">-->
+<!--                <div class="taskDoneCheckbox col-1">-->
+<!--                  <div class="form-check">-->
+<!--                    <input class="form-check-input position-static" type="checkbox" value="1">-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="taskName col-9">Task 1</div>-->
+<!--                <div class="col-2 taskToolbar">-->
+<!--                  <i class="taskTool taskUpButton fas fa-angle-up" data-id="1"></i> |-->
+<!--                  <i class="taskTool taskDownButton fas fa-angle-down" data-id="1"></i> |-->
+<!--                  <i class="taskTool taskEditButton fas fa-edit" data-id="1"></i> |-->
+<!--                  <i class="taskTool taskDeleteButton fas fa-trash" data-id="1"></i>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="taskItem row" id="task-2" data-project-id="1" data-id="2" data-name="Task 2" data-position="2">-->
+<!--                <div class="taskDoneCheckbox col-1">-->
+<!--                  <div class="form-check">-->
+<!--                    <input class="form-check-input position-static" type="checkbox">-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="taskName col-9">Task 2</div>-->
+<!--                <div class="col-2 taskToolbar">-->
+<!--                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |-->
+<!--                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |-->
+<!--                  <i class="taskTool taskEditButton fas fa-edit"></i> |-->
+<!--                  <i class="taskTool taskDeleteButton fas fa-trash"></i>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="taskItem row" id="task-3" data-project-id="1" data-id="3" data-name="Task 3" data-position="3">-->
+<!--                <div class="taskDoneCheckbox col-1">-->
+<!--                  <div class="form-check">-->
+<!--                    <input class="form-check-input position-static" type="checkbox" checked>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="taskName col-9">Task 3</div>-->
+<!--                <div class="col-2 taskToolbar">-->
+<!--                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |-->
+<!--                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |-->
+<!--                  <i class="taskTool taskEditButton fas fa-edit"></i> |-->
+<!--                  <i class="taskTool taskDeleteButton fas fa-trash"></i>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="taskItem row" id="task-4" data-project-id="1" data-id="4" data-name="Task 4" data-position="4">-->
+<!--                <div class="taskDoneCheckbox col-1">-->
+<!--                  <div class="form-check">-->
+<!--                    <input class="form-check-input position-static" type="checkbox" checked>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="taskName col-9">Task 4</div>-->
+<!--                <div class="col-2 taskToolbar">-->
+<!--                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |-->
+<!--                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |-->
+<!--                  <i class="taskTool taskEditButton fas fa-edit"></i> |-->
+<!--                  <i class="taskTool taskDeleteButton fas fa-trash"></i>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
+
+<!--          <div class="projectItem" id="project-2" data-id="1" data-name="Home Tasks">-->
+<!--            <div class="projectName row">-->
+<!--              <div class="col-11"><i class="far fa-calendar-alt"></i>Home Tasks</div>-->
+<!--              <div class="col-1 float-right projectToolbar">-->
+<!--                <i class="projectEditButton fas fa-edit"></i>-->
+<!--                |-->
+<!--                <i class="projectDeleteButton fas fa-trash"></i>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--            <div class="newTaskBlock row">-->
+<!--              <i class="taskAddIcon fas fa-plus"></i>-->
+<!--              <input type="text" name="new-task-name" class="newTaskNameInput form-control" placeholder="" id="new-task-name-2">-->
+<!--              <div class="addTaskButton btn btn-success">Add Task</div>-->
+<!--            </div>-->
+<!--            <div class="tasksBlock">-->
+<!--              <div class="taskItem row" id="task-7" data-project-id="1" data-id="1" data-position="1">-->
+<!--                <div class="taskDoneCheckbox col-1">-->
+<!--                  <div class="form-check">-->
+<!--                    <input class="form-check-input position-static" type="checkbox" value="1">-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="taskName col-9">Task 1</div>-->
+<!--                <div class="col-2 taskToolbar">-->
+<!--                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |-->
+<!--                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |-->
+<!--                  <i class="taskTool taskEditButton fas fa-edit"></i> |-->
+<!--                  <i class="taskTool taskDeleteButton fas fa-trash"></i>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="taskItem row" id="task-8" data-project-id="1" data-id="2" data-name="Task 2" data-position="2">-->
+<!--                <div class="taskDoneCheckbox col-1">-->
+<!--                  <div class="form-check">-->
+<!--                    <input class="form-check-input position-static" type="checkbox">-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="taskName col-9">Task 2</div>-->
+<!--                <div class="col-2 taskToolbar">-->
+<!--                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |-->
+<!--                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |-->
+<!--                  <i class="taskTool taskEditButton fas fa-edit"></i> |-->
+<!--                  <i class="taskTool taskDeleteButton fas fa-trash"></i>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="taskItem row" id="task-9" data-project-id="1" data-id="3" data-name="Task 3" data-position="3">-->
+<!--                <div class="taskDoneCheckbox col-1">-->
+<!--                  <div class="form-check">-->
+<!--                    <input class="form-check-input position-static" type="checkbox" checked>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="taskName col-9">Task 3</div>-->
+<!--                <div class="col-2 taskToolbar">-->
+<!--                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |-->
+<!--                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |-->
+<!--                  <i class="taskTool taskEditButton fas fa-edit"></i> |-->
+<!--                  <i class="taskTool taskDeleteButton fas fa-trash"></i>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--              <div class="taskItem row" id="task-10" data-project-id="1" data-id="4" data-name="Task 4" data-position="4">-->
+<!--                <div class="taskDoneCheckbox col-1">-->
+<!--                  <div class="form-check">-->
+<!--                    <input class="form-check-input position-static" type="checkbox" checked>-->
+<!--                  </div>-->
+<!--                </div>-->
+<!--                <div class="taskName col-9">Task 4</div>-->
+<!--                <div class="col-2 taskToolbar">-->
+<!--                  <i class="taskTool taskUpButton fas fa-angle-up"></i> |-->
+<!--                  <i class="taskTool taskDownButton fas fa-angle-down"></i> |-->
+<!--                  <i class="taskTool taskEditButton fas fa-edit"></i> |-->
+<!--                  <i class="taskTool taskDeleteButton fas fa-trash"></i>-->
+<!--                </div>-->
+<!--              </div>-->
+<!--            </div>-->
+<!--          </div>-->
         </div>
 
 

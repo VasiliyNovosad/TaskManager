@@ -106,3 +106,9 @@ body {
 .newTaskNameInput {
     width: 80%;
 }
+
+#projectAddButton {
+    align-content: center;
+    margin: 10px 40%;
+    width: 200px;
+}

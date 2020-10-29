@@ -1,56 +1,125 @@
 $(document).ready(function() {
-  $('#createProjectButton').on('click', function (e) {
-    e.preventDefault();
-    const projectName = $('#new-project-name').val();
-    console.log({projectName, elem: $('#new-project-name')});
-    $.ajax({
-      url: '/api/projects',
-      data: {name: projectName},
-      type: 'POST',
-      dataType: 'json',
-      success: function(json) {
-        console.log('the project was created', json);
-        $('#createProject').modal('hide');
-        $('#new-project-name').val('');
-      },
-      error: function(error) {
-        console.log('the project was not created', error);
-      },
-      complete: function(xhr, status) {
-        console.log('the request is complete!');
-      }
-    });
-  });
+  const showError = function(error) {
+    console.log(error);
+  }
 
-  $('#newProjectForm').on('submit', function (e) {
+  const upTaskPriority = function(e) {
+    e.preventDefault();
+    console.log(e);
+  }
+
+  const downTaskPriority = function(e) {
+    e.preventDefault();
+    console.log(e);
+  }
+
+  const deleteTask = function(e) {
+    e.preventDefault();
+
+    const taskId = $(e.target).data('id');
+    const taskName = $(`#task-${taskId} .taskName`).text();
+    if (confirm(`Do you really want to delete task "${taskName}"`)) {
+      $.ajax({
+        url: `/api/tasks/${taskId}`,
+        type: 'DELETE',
+        dataType: 'json',
+        success: function() {
+          $(`#task-${taskId}`).remove();
+        },
+        error: showError
+      });
+    }
+  }
+
+  const toggleTaskDone = function(e) {
+    e.preventDefault();
+    console.log(e);
+  }
+
+  const openTaskEditForm = function(e) {
+    e.preventDefault();
+    console.log(e);
+  }
+
+  const deleteProject = function(e) {
+    e.preventDefault();
+
+    const projectId = $(e.target).data('id');
+    const projectName = $(`#project-${projectId} .projectName .col-11`).text();
+    if (confirm(`Do you really want to delete project "${projectName}"`)) {
+      $.ajax({
+        url: `/api/projects/${projectId}`,
+        type: 'DELETE',
+        dataType: 'json',
+        success: function() {
+          $(`#project-${projectId}`).remove();
+        },
+        error: showError
+      });
+    }
+  }
+
+  const openProjectEditForm = function(e) {
+    e.preventDefault();
+    console.log(e);
+  }
+
+  const addProject = function (e) {
     e.preventDefault();
     const projectName = $('#new-project-name').val();
-    console.log({projectName, elem: $('#new-project-name')});
     $.ajax({
       url: '/api/projects',
       data: {name: projectName},
       type: 'POST',
       dataType: 'json',
-      success: function(json) {
-        console.log('the project was created', json);
+      success: function(project) {
         $('#createProject').modal('hide');
         $('#new-project-name').val('');
+
+        const projectsBlock = $('#projectsBlock');
+        projectsBlock.append(createProjectItem(project));
+
+        $(`#project-${project.id} .addTaskButton`).on('click', addTask);
+        $(`#project-${project.id} .projectEditButton`).on('click', openProjectEditForm);
+        $(`#project-${project.id} .projectDeleteButton`).on('click', deleteProject);
       },
-      error: function(error) {
-        console.log('the project was not created', error);
-      },
-      complete: function(xhr, status) {
-        console.log('the request is complete!');
-      }
+      error: showError
     });
-  });
+  }
+
+  const addTask = function(e) {
+    e.preventDefault();
+    const projectId = $(e.target).data('id');
+    const taskName = $(`#new-task-name-${projectId}`).val();
+    const taskPriority = $(`#project-${projectId} .taskItem`).length + 1;
+
+    $.ajax({
+      url: '/api/tasks',
+      data: {project_id: projectId, name: taskName, priority: taskPriority, done: false},
+      type: 'POST',
+      dataType: 'json',
+      success: function(task) {
+        $(`#new-task-name-${projectId}`).val('');
+
+        const tasksBlock = $(`#project-${projectId} .tasksBlock`);
+        tasksBlock.append(createTaskItem(task));
+
+        $(`#task-${task.id} .taskUpButton`).on('click', upTaskPriority);
+        $(`#task-${task.id} .taskDownButton`).on('click', downTaskPriority);
+        $(`#task-${task.id} .taskEditButton`).on('click', openTaskEditForm);
+        $(`#task-${task.id} .taskDeleteButton`).on('click', deleteTask);
+        $(`#task-${task.id} .taskDoneCheckbox`).on('click', toggleTaskDone);
+      },
+      error: showError
+    });
+  }
 
   const createTaskItem = function(task) {
-    let result = `
+    return `
               <div class="taskItem row" id="task-${task.id}" data-project-id="${task.project_id}" data-id="${task.id}" data-position="${task.priority}">
                 <div class="taskDoneCheckbox col-1">
                   <div class="form-check">
-                    <input class="form-check-input position-static" type="checkbox" value="1" ${task.done ? 'checked' : ''}>
+                    <input class="form-check-input position-static" type="checkbox" data-id="${task.id}" ${task.done ? 'checked' : ''}>
                   </div>
                 </div>
                 <div class="taskName col-9">${task.name}</div>
@@ -62,18 +131,17 @@ $(document).ready(function() {
                 </div>
               </div>
     `;
-    return result;
   }
 
   const createProjectItem = function(project) {
-    let result = `
-    <div class="projectItem" id="project-${project.id}" data-id="${project.id}" data-name="${project.name}">
+    return `
+          <div class="projectItem" id="project-${project.id}" data-id="${project.id}" data-name="${project.name}">
             <div class="projectName row">
               <div class="col-11"><i class="far fa-calendar-alt"></i>${project.name}</div>
               <div class="col-1 float-right projectToolbar">
-                <i class="projectEditButton fas fa-edit"></i>
+                <i class="projectEditButton fas fa-edit" data-id="${project.id}"></i>
                 |
-                <i class="projectDeleteButton fas fa-trash"></i>
+                <i class="projectDeleteButton fas fa-trash" data-id="${project.id}"></i>
               </div>
             </div>
             <div class="newTaskBlock row">
@@ -86,8 +154,11 @@ $(document).ready(function() {
             </div>
           </div>
     `;
-    return result;
   }
+
+  $('#createProjectButton').on('click', addProject);
+
+  $('#newProjectForm').on('submit', addProject);
 
   $.ajax({
     url: '/api/projects',
@@ -100,12 +171,17 @@ $(document).ready(function() {
         projectsBlock.append(createProjectItem(project));
       });
 
+      $('.taskUpButton').on('click', upTaskPriority);
+      $('.taskDownButton').on('click', downTaskPriority);
+      $('.taskEditButton').on('click', openTaskEditForm);
+      $('.taskDeleteButton').on('click', deleteTask);
+      $('.taskDoneCheckbox').on('click', toggleTaskDone);
+
+      $('.addTaskButton').on('click', addTask);
+      $('.projectEditButton').on('click', openProjectEditForm);
+      $('.projectDeleteButton').on('click', deleteProject);
+
     },
-    error: function(error) {
-      console.log('Projects were not loaded', error);
-    },
-    complete: function(xhr, status) {
-      console.log('the request is complete!');
-    }
+    error: showError
   });
 })

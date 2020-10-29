@@ -14,7 +14,11 @@ get '/' do
 end
 
 get '/api/projects' do
-  Project.all.to_json(include: :tasks)
+  Project.includes(:tasks).order('projects.id', 'tasks.priority').all.to_json(include: :tasks)
+end
+
+get '/api/projects/:id' do
+  Project.find(params['id']).to_json
 end
 
 post '/api/projects' do
@@ -56,7 +60,7 @@ get '/api/tasks' do
 end
 
 get '/api/tasks/:id' do
-  Task.where(id: params['id']).first.to_json
+  Task.find(params['id']).to_json
 end
 
 post '/api/tasks' do

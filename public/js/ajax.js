@@ -5,12 +5,76 @@ $(document).ready(function() {
 
   const upTaskPriority = function(e) {
     e.preventDefault();
-    console.log(e);
+
+    const taskId = $(e.target).data('id');
+    const currentTaskItem = $(`#task-${taskId}`);
+    const projectId = currentTaskItem.data('project-id');
+    const taskPriority = +currentTaskItem.data('priority');
+    if (taskPriority === 1) {
+      return;
+    }
+
+    const previousTaskItem = $($(`.taskItem[data-project-id="${projectId}"]`).toArray().find(item => $(item).data('priority') === taskPriority - 1));
+
+    previousTaskItem.insertAfter(`#task-${taskId}`);
+    $.ajax({
+      url: `/api/tasks/${previousTaskItem.data('id')}`,
+      data: {priority: taskPriority},
+      type: 'PUT',
+      dataType: 'json',
+      success: function(task) {
+        previousTaskItem.data('priority', task.priority);
+      },
+      error: showError
+    });
+
+    $.ajax({
+      url: `/api/tasks/${taskId}`,
+      data: {priority: taskPriority - 1},
+      type: 'PUT',
+      dataType: 'json',
+      success: function(task) {
+        currentTaskItem.data('priority', task.priority);
+      },
+      error: showError
+    });
   }
 
   const downTaskPriority = function(e) {
     e.preventDefault();
-    console.log(e);
+
+    const taskId = $(e.target).data('id');
+    const currentTaskItem = $(`#task-${taskId}`);
+    const projectId = currentTaskItem.data('project-id');
+    const taskPriority = +currentTaskItem.data('priority');
+    if (taskPriority === $(`.taskItem[data-project-id="${projectId}"]`).length) {
+      return;
+    }
+
+    const nextTaskItem = $($(`.taskItem[data-project-id="${projectId}"]`).toArray().find(item => $(item).data('priority') === taskPriority + 1));
+
+    nextTaskItem.insertBefore(`#task-${taskId}`);
+    $.ajax({
+      url: `/api/tasks/${nextTaskItem.data('id')}`,
+      data: {priority: taskPriority},
+      type: 'PUT',
+      dataType: 'json',
+      success: function(task) {
+        nextTaskItem.data('priority', task.priority);
+      },
+      error: showError
+    });
+
+    $.ajax({
+      url: `/api/tasks/${taskId}`,
+      data: {priority: taskPriority + 1},
+      type: 'PUT',
+      dataType: 'json',
+      success: function(task) {
+        currentTaskItem.data('priority', task.priority);
+      },
+      error: showError
+    });
   }
 
   const deleteTask = function(e) {
@@ -32,13 +96,89 @@ $(document).ready(function() {
   }
 
   const toggleTaskDone = function(e) {
+    const taskId = $(e.target).data('id');
+    const checked = $(e.target).prop('checked');
+    $.ajax({
+      url: `/api/tasks/${taskId}`,
+      data: {done: checked},
+      type: 'PUT',
+      dataType: 'json',
+      success: function() {},
+      error: showError
+    });
+  }
+
+  const updateTask = function(e) {
     e.preventDefault();
-    console.log(e);
+    const taskName = $('#task-name').val();
+    const taskId = $('#task-id').val();
+    const taskDone = $('#task-done').prop('checked');
+    const taskDeadline = $('#task-deadline').val();
+    $.ajax({
+      url: `/api/tasks/${taskId}`,
+      data: {name: taskName, done: taskDone, deadline: taskDeadline},
+      type: 'PUT',
+      dataType: 'json',
+      success: function(task) {
+        $('#editTask').modal('hide');
+        $('#task-name').val('');
+        $('#task-id').val('');
+        $('#task-deadline').val('');
+        $('#task-done').prop('checked', false);
+
+        $(`#task-${task.id} .taskName`).text(task.name);
+        $(`#task-${task.id} .taskDoneCheckbox input`).prop('checked', task.done);
+      },
+      error: showError
+    });
+  }
+
+  const updateProject = function(e) {
+    e.preventDefault();
+    const projectName = $('#project-name').val();
+    const projectId = $('#project-id').val();
+    $.ajax({
+      url: `/api/projects/${projectId}`,
+      data: {name: projectName},
+      type: 'PUT',
+      dataType: 'json',
+      success: function(project) {
+        $('#editProject').modal('hide');
+        $('#project-name').val('');
+        $('#project-id').val('');
+
+        $(`#project-${project.id} .projectName .col-11`).text(project.name);
+      },
+      error: showError
+    });
   }
 
   const openTaskEditForm = function(e) {
     e.preventDefault();
-    console.log(e);
+
+    const taskId = $(e.target).data('id');
+
+    $.ajax({
+      url: `/api/tasks/${taskId}`,
+      type: 'GET',
+      dataType: 'json',
+      success: function(task) {
+        console.log({task});
+        const modalForm = $('#editTask');
+        $('#task-id').val(task.id);
+        $('#task-name').val(task.name);
+
+        const formattedDate = new Date(task.deadline);
+        const d = formattedDate.getDate();
+        const m =  formattedDate.getMonth() + 1;
+        const y = formattedDate.getFullYear();
+
+        $('#task-deadline').val(y + "-" + m + "-" + d);
+        $('#task-done').prop('checked', task.done);
+        modalForm.modal('show');
+      },
+      error: showError
+    });
   }
 
   const deleteProject = function(e) {
@@ -61,7 +201,20 @@ $(document).ready(function() {
 
   const openProjectEditForm = function(e) {
     e.preventDefault();
-    console.log(e);
+
+    const projectId = $(e.target).data('id');
+    $.ajax({
+      url: `/api/projects/${projectId}`,
+      type: 'GET',
+      dataType: 'json',
+      success: function(project) {
+        const modalForm = $('#editProject');
+        $('#project-id').val(project.id);
+        $('#project-name').val(project.name);
+        modalForm.modal('show');
+      },
+      error: showError
+    });
   }
 
   const addProject = function (e) {
@@ -116,7 +269,7 @@ $(document).ready(function() {
 
   const createTaskItem = function(task) {
     return `
-              <div class="taskItem row" id="task-${task.id}" data-project-id="${task.project_id}" data-id="${task.id}" data-position="${task.priority}">
+              <div class="taskItem row" id="task-${task.id}" data-project-id="${task.project_id}" data-id="${task.id}" data-priority="${task.priority}">
                 <div class="taskDoneCheckbox col-1">
                   <div class="form-check">
                     <input class="form-check-input position-static" type="checkbox" data-id="${task.id}" ${task.done ? 'checked' : ''}>
@@ -160,12 +313,15 @@ $(document).ready(function() {
 
   $('#newProjectForm').on('submit', addProject);
 
+  $('#updateProjectButton').on('click', updateProject);
+
+  $('#updateTaskButton').on('click', updateTask);
+
   $.ajax({
     url: '/api/projects',
     type: 'GET',
     dataType: 'json',
     success: function(projects) {
-      console.log('Projects list: ', projects);
       const projectsBlock = $('#projectsBlock');
       projects.forEach(project => {
         projectsBlock.append(createProjectItem(project));

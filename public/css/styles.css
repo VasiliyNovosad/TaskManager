@@ -109,6 +109,6 @@ body {
 
 #projectAddButton {
     align-content: center;
-    margin: 10px 40%;
+    margin: 10px calc(50% - 100px);
     width: 200px;
 }

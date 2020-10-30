@@ -16,6 +16,8 @@
           <h7>FROM RUBY GARAGE</h7>
         </div>
 
+        <div id="errorsBlock" class="col-12"></div>
+
         <div id="projectsBlock" class="col-12"></div>
 
         <div id="newProjectBlock" class="col-12">
@@ -36,6 +38,7 @@
               </button>
             </div>
             <div class="modal-body">
+              <div id="errorsAddProjectBlock" class="col-12"></div>
               <form id="new-project-form">
                 <div class="form-group">
                   <label for="new-project-name">Name</label>
@@ -61,6 +64,7 @@
               </button>
             </div>
             <div class="modal-body">
+              <div id="errorsEditProjectBlock" class="col-12"></div>
               <form id="edit-project-form">
                 <div class="form-group">
                   <label for="project-name">Name</label>
@@ -87,6 +91,7 @@
               </button>
             </div>
             <div class="modal-body">
+              <div id="errorsEditTaskBlock" class="col-12"></div>
               <form id="edit-task-form">
                 <input type="text" name="task[id]" class="form-control" placeholder="" id="task-id" hidden>
                 <div class="form-group">

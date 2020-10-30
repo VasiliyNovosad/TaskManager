@@ -1,6 +1,24 @@
 $(document).ready(function() {
-  const showError = function(error) {
-    console.log(error);
+  const showError = function(error, errorsBlock = $('#errorsBlock')) {
+    const errorItem = `
+    <div class="alert alert-danger" role="alert" id="errorMessage">
+      ${error.responseJSON.join('\n')}
+    </div>
+    `;
+    errorsBlock.append(errorItem);
+    setTimeout(function() { $('#errorMessage').remove() }, 4000);
+  }
+
+  const showAddProjectError = function(error) {
+    showError(error, $('#errorsAddProjectBlock'));
+  }
+
+  const showEditProjectError = function(error) {
+    showError(error, $('#errorsEditProjectBlock'));
+  }
+
+  const showEditTaskError = function(error) {
+    showError(error, $('#errorsEditTaskBlock'));
   }
 
   const upTaskPriority = function(e) {
@@ -129,7 +147,7 @@ $(document).ready(function() {
         $(`#task-${task.id} .taskName`).text(task.name);
         $(`#task-${task.id} .taskDoneCheckbox input`).prop('checked', task.done);
       },
-      error: showError
+      error: showEditTaskError
     });
   }
 
@@ -149,7 +167,7 @@ $(document).ready(function() {
 
         $(`#project-${project.id} .projectName .col-11`).text(project.name);
       },
-      error: showError
+      error: showEditProjectError
     });
   }
 
@@ -236,7 +254,7 @@ $(document).ready(function() {
         $(`#project-${project.id} .projectEditButton`).on('click', openProjectEditForm);
         $(`#project-${project.id} .projectDeleteButton`).on('click', deleteProject);
       },
-      error: showError
+      error: showAddProjectError
     });
   }
 

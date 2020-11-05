@@ -131,7 +131,10 @@ $(document).ready(function() {
     const taskName = $('#task-name').val();
     const taskId = $('#task-id').val();
     const taskDone = $('#task-done').prop('checked');
-    const taskDeadline = $('#task-deadline').val();
+    const taskDeadlineString = $('#task-deadline').val();
+    const [year, month, day] = taskDeadlineString.split('-');
+    const taskDeadline = new Date(+year, +month, +day);
+
     $.ajax({
       url: `/api/tasks/${taskId}`,
       data: {name: taskName, done: taskDone, deadline: taskDeadline},
@@ -191,7 +194,7 @@ $(document).ready(function() {
         const m =  formattedDate.getMonth() + 1;
         const y = formattedDate.getFullYear();
 
-        $('#task-deadline').val(y + "-" + m + "-" + d);
+        $('#task-deadline').val(`${y}-${m < 10 ? '0' + String(m) : m}-${d < 10 ? '0' + String(d) : d}`);
         $('#task-done').prop('checked', task.done);
         modalForm.modal('show');
       },

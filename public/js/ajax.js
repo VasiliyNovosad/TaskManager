@@ -132,26 +132,31 @@ $(document).ready(function() {
     const taskId = $('#task-id').val();
     const taskDone = $('#task-done').prop('checked');
     const taskDeadlineString = $('#task-deadline').val();
-    const [year, month, day] = taskDeadlineString.split('-');
-    const taskDeadline = new Date(+year, +month, +day);
+    const [year, month, day] = taskDeadlineString.split('-', 3);
+    if (year > 0 && month > 0 && day > 0) {
+      const taskDeadline = new Date(+year, +month - 1, +day);
 
-    $.ajax({
-      url: `/api/tasks/${taskId}`,
-      data: {name: taskName, done: taskDone, deadline: taskDeadline},
-      type: 'PUT',
-      dataType: 'json',
-      success: function(task) {
-        $('#editTask').modal('hide');
-        $('#task-name').val('');
-        $('#task-id').val('');
-        $('#task-deadline').val('');
-        $('#task-done').prop('checked', false);
+      $.ajax({
+        url: `/api/tasks/${taskId}`,
+        data: {name: taskName, done: taskDone, deadline: taskDeadline},
+        type: 'PUT',
+        dataType: 'json',
+        success: function(task) {
+          $('#editTask').modal('hide');
+          $('#task-name').val('');
+          $('#task-id').val('');
+          $('#task-deadline').val('');
+          $('#task-done').prop('checked', false);
 
-        $(`#task-${task.id} .taskName`).text(task.name);
-        $(`#task-${task.id} .taskDoneCheckbox input`).prop('checked', task.done);
-      },
-      error: showEditTaskError
-    });
+          $(`#task-${task.id} .taskName`).text(task.name);
+          $(`#task-${task.id} .taskDoneCheckbox input`).prop('checked', task.done);
+        },
+        error: showEditTaskError
+      });
+    } else {
+      showEditTaskError({responseJSON: ['Bad date format for "deadline" field']});
+    }
+
   }
 
   const updateProject = function(e) {
